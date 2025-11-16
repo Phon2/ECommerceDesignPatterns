@@ -10,7 +10,7 @@ public class GiftWrapDecorator extends ProductDecorator {
 
     @Override
     public int getPrice() {
-        return super.getPrice() + 500; // добавляем стоимость упаковки
+        return super.getPrice() + 500;
     }
 
     @Override
