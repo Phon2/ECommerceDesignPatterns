@@ -1,6 +1,11 @@
-package User;
+package user;
+
+import order.RegularOrder;
+import product.IProduct;
 
 public class ConcreteUser implements IUser{
+    RegularOrder userOrder = new RegularOrder();
+
     private String username;
     private String password;
     private String email;
@@ -20,27 +25,27 @@ public class ConcreteUser implements IUser{
         return this.password;
     }
 
-    String getEmail() {
+    public String getEmail() {
         return this.email;
     }
 
-    String getPhone() {
+    public String getPhone() {
         return this.phone;
     }
 
-    String getAddress() {
+    public String getAddress() {
         return this.address;
     }
 
-    String getCity() {
+    public String getCity() {
         return this.city;
     }
 
-    String getState() {
+    public String getState() {
         return this.state;
     }
 
-    String getCountry() {
+    public String getCountry() {
         return this.country;
     }
 
@@ -54,30 +59,43 @@ public class ConcreteUser implements IUser{
         this.password = password;
     }
 
-    void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    void setPhone(String phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    void setCity(String city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    void setState(String state) {
+    public void setState(String state) {
         this.state = state;
     }
 
-    void setCountry(String country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
+    public void addProduct(IProduct product) {
+        this.userOrder.addProduct(product);
+    }
+
+    public void removeProduct(IProduct product){
+        this.userOrder.removeProduct(product);
+    }
+
+    public RegularOrder getUserOrder() {
+        return this.userOrder;
+    }
+
+    @Override
     public void display(){
         System.out.print("Username: " + this.username + "\n");
         System.out.print("Password: " + this.password + "\n");
@@ -87,6 +105,12 @@ public class ConcreteUser implements IUser{
         System.out.print(this.city != null ? "City: " + this.city + "\n" : "");
         System.out.print(this.state != null ? "State: " + this.state + "\n" : "");
         System.out.print(this.country != null ? "Country: " + this.country + "\n" : "");
+    }
+
+    @Override
+    public void update(String productName, int newPrice, int newStock) {
+        System.out.println("[Customer: " + this.username + "] Product " + productName +
+                " → Price: $" + newPrice + ", Stock: " + newStock);
     }
 
 }

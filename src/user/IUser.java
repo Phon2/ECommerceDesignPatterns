@@ -1,4 +1,4 @@
-package User;
+package user;
 
 public interface IUser {
     String getUsername();
@@ -10,5 +10,7 @@ public interface IUser {
     void setPassword(String password);
 
     void display();
+
+    void update(String productName, int newPrice, int newStock);
 
 }

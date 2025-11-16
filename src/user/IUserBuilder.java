@@ -1,4 +1,4 @@
-package User;
+package user;
 
 public interface IUserBuilder {
     IUserBuilder setUsername(String username);
