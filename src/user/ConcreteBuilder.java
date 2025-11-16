@@ -9,43 +9,43 @@ public class ConcreteBuilder implements IUserBuilder {
     }
 
     @Override
-    public IUserBuilder setUsername(String username) {
+    public ConcreteBuilder setUsername(String username) {
         this.user.setUsername(username);
         return this;
     }
 
     @Override
-    public IUserBuilder setPassword(String password) {
+    public ConcreteBuilder setPassword(String password) {
         this.user.setPassword(password);
         return this;
     }
 
-    public IUserBuilder setEmail(String email) {
+    public ConcreteBuilder setEmail(String email) {
         this.user.setEmail(email);
         return this;
     }
 
-    public IUserBuilder setPhone(String phone) {
+    public ConcreteBuilder setPhone(String phone) {
         this.user.setPhone(phone);
         return this;
     }
 
-    public IUserBuilder setAddress(String address) {
+    public ConcreteBuilder setAddress(String address) {
         this.user.setAddress(address);
         return this;
     }
 
-    public IUserBuilder setCity(String city) {
+    public ConcreteBuilder setCity(String city) {
         this.user.setCity(city);
         return this;
     }
 
-    public IUserBuilder setCountry(String country) {
+    public ConcreteBuilder setCountry(String country) {
         this.user.setCountry(country);
         return this;
     }
 
-    public IUserBuilder setState(String state) {
+    public ConcreteBuilder setState(String state) {
         this.user.setState(state);
         return this;
     }

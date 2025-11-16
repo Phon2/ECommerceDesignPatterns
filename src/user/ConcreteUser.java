@@ -110,7 +110,7 @@ public class ConcreteUser implements IUser{
     @Override
     public void update(String productName, int newPrice, int newStock) {
         System.out.println("[Customer: " + this.username + "] Product " + productName +
-                " → Price: $" + newPrice + ", Stock: " + newStock);
+                " → Price: " + newPrice + " KZT, Stock: " + newStock);
     }
 
 }

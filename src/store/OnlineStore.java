@@ -5,46 +5,38 @@ import java.util.*;
 import factory.ProductFactory;
 import user.*;
 import product.*;
+import observer.*;
 
 public class OnlineStore implements IStore {
-
     private final ArrayList<IProduct> products = new ArrayList<>();
-    private final Map<IProduct, List<IUser>> subscriptions = new HashMap<>();
+    private final ProductEventManager eventManager = new ProductEventManager();
 
+    @Override
     public void addProduct(ProductFactory factory, String name, int price, int stock) {
         IProduct product = factory.createProduct(name, price, stock);
         products.add(product);
-        subscriptions.put(product, new ArrayList<>());
+        eventManager.addProduct(product);
     }
 
     @Override
     public void subscribe(IUser user, IProduct product) {
-        if (subscriptions.containsKey(product)) {
-            List<IUser> users = subscriptions.get(product);
-            if (!users.contains(user)) {
-                users.add(user);
-            }
-        }
+        eventManager.subscribe(user, product);
     }
 
     @Override
     public void unsubscribe(IUser user, IProduct product) {
-        subscriptions.get(product).remove(user);
+        eventManager.unsubscribe(user, product);
     }
 
     @Override
     public void notifyUsers(IProduct product) {
-        if (subscriptions.containsKey(product)) {
-            for (IUser user : subscriptions.get(product)) {
-                user.update(product.getName(), product.getPrice(), product.getStock());
-            }
-        }
+        eventManager.notifyUsers(product);
     }
 
     @Override
     public void updatePrice(IProduct product, int newPrice) {
         product.setPrice(newPrice);
-        System.out.println("\n[Store] Price updated for " + product.getName() + ": $" + newPrice);
+        System.out.println("\n[Store] Price updated for " + product.getName() + ": " + newPrice + " KZT");
         notifyUsers(product);
     }
 

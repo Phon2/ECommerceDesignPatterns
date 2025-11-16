@@ -1,46 +1,39 @@
-import user.*;
-import factory.*;
-import product.*;
+import facade.StoreFacade;
+import order.discounts.*;
+import order.payments.*;
+import product.IProduct;
 import product.decorator.*;
-import store.*;
-import order.*;
+import user.*;
 
 public class Main {
+
     public static void main(String[] args) {
-        ConcreteBuilder builder = new ConcreteBuilder();
 
-        builder.setUsername("UlaRora");
-        builder.setPassword("s3cur3PasSwOrD2007");
+        StoreFacade facade = new StoreFacade();
 
-        ConcreteUser user = builder.build();
-        user.display();
+        ConcreteUser zarina = facade.createUser("Zarina", "010203", "zarina@email.com");
+        ConcreteUser murat = facade.createUser("Murat", "mura67", "murat@email.com");
 
-        ProductFactory clothingFactory = new ClothingFactory();
-        ProductFactory electronicsFactory = new ElectronicsFactory();
+        IProduct tshirtBlue = facade.addClothing("T-Shirt blue", 3000, 10);
+        IProduct laptopSilver = facade.addElectronics("Laptop silver", 120000, 5);
 
-        IProduct tshirt = new GiftWrapDecorator(new ExpressDeliveryDecorator(clothingFactory.createProduct("T-Shirt", 7000, 2)));
-        IProduct laptop = new GiftWrapDecorator(new ExpressDeliveryDecorator(electronicsFactory.createProduct("Laptop", 600000, 3)));
+        facade.subscribeUser(zarina, tshirtBlue);
+        facade.subscribeUser(murat, laptopSilver);
 
-        System.out.println("Product 1 (T-Shirt)");
-        tshirt.display();
-        System.out.println("Total price: " + tshirt.getPrice() + " KZT");
+        IProduct wrappedLaptopSilver = new GiftWrapDecorator(laptopSilver);
+        IProduct expressTShirtBlue = new ExpressDeliveryDecorator(tshirtBlue);
 
-        System.out.println("\nProduct 2 (Laptop)");
-        laptop.display();
-        System.out.println("Total price: " + laptop.getPrice() + " KZT");
+        facade.addProductToOrder(zarina, wrappedLaptopSilver);
+        facade.addProductToOrder(zarina, expressTShirtBlue);
 
-        OnlineStore store = new OnlineStore();
+        facade.setPaymentStrategy(zarina, new CreditCardPayment("1234-5678-9012-3456"));
+        facade.setDiscountStrategy(zarina, new BlackFridayDiscount());
 
-        store.addProduct(clothingFactory, "T-Shirt", 7000, 2);
-        store.addProduct(electronicsFactory, "Laptop", 600000, 3);
+        System.out.println("\n--- Zarina's order ---");
+        facade.displayOrder(zarina);
 
-        IProduct tshirtInStore = store.getProductByName("T-Shirt");
-        IProduct laptopInStore = store.getProductByName("Laptop");
-
-        store.subscribe(user, tshirtInStore);
-        store.subscribe(user, laptopInStore);
-
-        store.updatePrice(tshirtInStore, 7500);   // пользователь получит уведомление
-        store.updateStock(laptopInStore, 5);
+        System.out.println("\n--- Store Updates ---");
+        facade.updatePrice(tshirtBlue, 3500);
+        facade.updateStock(laptopSilver, 3);
     }
 }
