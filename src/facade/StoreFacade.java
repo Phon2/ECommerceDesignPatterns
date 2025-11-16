@@ -46,10 +46,7 @@ public class StoreFacade {
     }
 
     public void addProductToOrder(ConcreteUser user, IProduct product) {
-        if (product.getStock() > 0) {
-            user.addProduct(product);
-            updateStock(product, product.getStock() - 1);
-        }
+        user.addProduct(product);
     }
 
     public void setPaymentStrategy(ConcreteUser user, IPaymentStrategy payment) {
